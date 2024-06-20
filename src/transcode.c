@@ -566,16 +566,11 @@ size_estimate(enum transcode_profile profile, int bit_rate, int sample_rate, int
 {
   off_t bytes;
 
-  // If the source has a number of samples that doesn't match an even len_ms
-  // then the length may have been rounded up. We prefer an estimate that is on
-  // the low side, otherwise ffprobe won't trust the length from our wav header.
-  if (len_ms > 0)
-    len_ms -= 1;
-  else
+  if (len_ms == 0)
     len_ms = 3 * 60 * 1000;
 
   if (profile == XCODE_WAV)
-    bytes = (int64_t)len_ms * channels * bytes_per_sample * sample_rate / 1000 + WAV_HEADER_LEN;
+    bytes = channels * bytes_per_sample * sample_rate * (len_ms / 1000) + WAV_HEADER_LEN;
   else if (profile == XCODE_MP3)
     bytes = (int64_t)len_ms * bit_rate / 8000;
   else if (profile == XCODE_MP4_ALAC)
@@ -1099,10 +1094,8 @@ make_wav_header(struct evbuffer **wav_header, int sample_rate, int bytes_per_sam
 {
   uint8_t header[WAV_HEADER_LEN];
 
-  uint32_t wav_size = bytes_total - WAV_HEADER_LEN;
-
   memcpy(header, "RIFF", 4);
-  add_le32(header + 4, 36 + wav_size);
+  add_le32(header + 4, bytes_total - 8); // Total size - 8 bytes as defined by the format
   memcpy(header + 8, "WAVEfmt ", 8);
   add_le32(header + 16, 16);
   add_le16(header + 20, 1);
@@ -1112,7 +1105,7 @@ make_wav_header(struct evbuffer **wav_header, int sample_rate, int bytes_per_sam
   add_le16(header + 32, channels * bytes_per_sample);               /* block align */
   add_le16(header + 34, 8 * bytes_per_sample);                      /* bits per sample */
   memcpy(header + 36, "data", 4);
-  add_le32(header + 40, wav_size);
+  add_le32(header + 40, bytes_total - WAV_HEADER_LEN);
 
   *wav_header = evbuffer_new();
   evbuffer_add(*wav_header, header, sizeof(header));
