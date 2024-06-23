@@ -565,12 +565,15 @@ static off_t
 size_estimate(enum transcode_profile profile, int bit_rate, int sample_rate, int bytes_per_sample, int channels, int len_ms)
 {
   off_t bytes;
+  double calc = sample_rate;
 
   if (len_ms == 0)
     len_ms = 3 * 60 * 1000;
 
+  calc = calc / 1000 * len_ms; 
+
   if (profile == XCODE_WAV)
-    bytes = channels * bytes_per_sample * sample_rate * (len_ms / 1000) + WAV_HEADER_LEN;
+    bytes = (off_t)calc * channels * bytes_per_sample + WAV_HEADER_LEN;
   else if (profile == XCODE_MP3)
     bytes = (int64_t)len_ms * bit_rate / 8000;
   else if (profile == XCODE_MP4_ALAC)
@@ -1095,7 +1098,7 @@ make_wav_header(struct evbuffer **wav_header, int sample_rate, int bytes_per_sam
   uint8_t header[WAV_HEADER_LEN];
 
   memcpy(header, "RIFF", 4);
-  add_le32(header + 4, UINT32_MAX);
+  add_le32(header + 4, bytes_total - 8); // Total file size - 8 bytes as defined by the format
   memcpy(header + 8, "WAVEfmt ", 8);
   add_le32(header + 16, 16);
   add_le16(header + 20, 1); // AudioFormat (PCM)
@@ -1105,7 +1108,7 @@ make_wav_header(struct evbuffer **wav_header, int sample_rate, int bytes_per_sam
   add_le16(header + 32, channels * bytes_per_sample);               /* block align */
   add_le16(header + 34, 8 * bytes_per_sample);                      /* bits per sample */
   memcpy(header + 36, "data", 4);
-  add_le32(header + 40, UINT32_MAX - 36);
+  add_le32(header + 40, bytes_total - WAV_HEADER_LEN);
 
   *wav_header = evbuffer_new();
   evbuffer_add(*wav_header, header, sizeof(header));
