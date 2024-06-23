@@ -1095,7 +1095,7 @@ make_wav_header(struct evbuffer **wav_header, int sample_rate, int bytes_per_sam
   uint8_t header[WAV_HEADER_LEN];
 
   memcpy(header, "RIFF", 4);
-  add_le32(header + 4, 0); // File size is unknown so set to zero
+  add_le32(header + 4, UINT32_MAX);
   memcpy(header + 8, "WAVEfmt ", 8);
   add_le32(header + 16, 16);
   add_le16(header + 20, 1); // AudioFormat (PCM)
@@ -1105,7 +1105,7 @@ make_wav_header(struct evbuffer **wav_header, int sample_rate, int bytes_per_sam
   add_le16(header + 32, channels * bytes_per_sample);               /* block align */
   add_le16(header + 34, 8 * bytes_per_sample);                      /* bits per sample */
   memcpy(header + 36, "data", 4);
-  add_le32(header + 40, 0); // Size is unknown so set to zero
+  add_le32(header + 40, UINT32_MAX - 36);
 
   *wav_header = evbuffer_new();
   evbuffer_add(*wav_header, header, sizeof(header));
