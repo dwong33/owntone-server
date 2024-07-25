@@ -1440,7 +1440,7 @@ httpd_basic_auth(struct httpd_request *hreq, const char *user, const char *passw
       goto need_auth;
     }
 
-  authpwd = strchr(authuser, ':');
+  authpwd = strrchr(authuser, ':');
   if (!authpwd)
     {
       DPRINTF(E_LOG, L_HTTPD, "Malformed Authentication header\n");
