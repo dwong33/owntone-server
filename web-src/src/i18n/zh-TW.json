@@ -28,7 +28,7 @@
       },
       "album": {
         "add-next": "插播",
-        "add": "最後播放",
+        "add": "新增",
         "added-on": "新增時間",
         "artist": "專輯藝人",
         "duration": "時長",
@@ -42,7 +42,7 @@
       },
       "artist": {
         "add-next": "插播",
-        "add": "最後播放",
+        "add": "新增",
         "added-on": "新增時間",
         "albums": "張專輯",
         "play": "播放",
@@ -51,7 +51,7 @@
       },
       "composer": {
         "add-next": "插播",
-        "add": "最後播放",
+        "add": "新增",
         "albums": "張專輯",
         "duration": "時長",
         "play": "播放",
@@ -59,12 +59,12 @@
       },
       "directory": {
         "add-next": "插播",
-        "add": "最後播放",
+        "add": "新增",
         "play": "播放"
       },
       "genre": {
         "add-next": "插播",
-        "add": "最後播放",
+        "add": "新增",
         "albums": "張專輯",
         "duration": "時長",
         "play": "播放",
@@ -72,7 +72,7 @@
       },
       "playlist": {
         "add-next": "插播",
-        "add": "最後播放",
+        "add": "新增",
         "play": "播放",
         "path": "路徑",
         "tracks": "首曲目",
@@ -113,7 +113,7 @@
       "spotify": {
         "album": {
           "add-next": "插播",
-          "add": "最後播放",
+          "add": "新增",
           "album-artist": "專輯藝人",
           "play": "播放",
           "release-date": "發行日期",
@@ -121,14 +121,14 @@
         },
         "artist": {
           "add-next": "插播",
-          "add": "最後播放",
+          "add": "新增",
           "genres": "音樂類型",
           "play": "播放",
           "popularity": "流行度 / 粉絲數"
         },
         "playlist": {
           "add-next": "插播",
-          "add": "最後播放",
+          "add": "新增",
           "owner": "所有者",
           "path": "路徑",
           "play": "播放",
@@ -136,7 +136,7 @@
         },
         "track": {
           "add-next": "插播",
-          "add": "最後播放",
+          "add": "新增",
           "album-artist": "專輯藝人",
           "album": "專輯",
           "duration": "時長",
@@ -148,7 +148,7 @@
       },
       "track": {
         "add-next": "插播",
-        "add": "最後播放",
+        "add": "新增",
         "added-on": "新增時間",
         "album-artist": "專輯藝人",
         "album": "專輯",
@@ -394,7 +394,7 @@
         "track-count": "{count} 首曲目|{count} 首曲目"
       },
       "podcasts": {
-        "add": "最後播放",
+        "add": "新增",
         "count": "{count} 個Podcast|{count} 個Podcast",
         "mark-all-played": "全部標記為已播放",
         "new-episodes": "最新單集",
